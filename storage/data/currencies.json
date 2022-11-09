@@ -1,0 +1,21 @@
+[
+    {
+        "code": "JPY",
+        "description": "Japanese Yen",
+        "exchange_rate": 107.17,
+        "surcharge": 0.075
+    },
+    {
+        "code": "GBP",
+        "description": "British Pound",
+        "exchange_rate": 0.711178,
+        "surcharge": 0.05
+    },
+    {
+        "code": "EUR",
+        "description": "Euro",
+        "exchange_rate": 0.884872,
+        "surcharge": 0.05,
+        "discount": 0.02
+    }
+]
