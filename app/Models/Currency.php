@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id;
  * @property string $code;
  * @property string $description;
- * @property double $exchangeRate;
+ * @property double $exchange_rate;
  * @property double $surcharge;
  * @property double $discount;
  */
