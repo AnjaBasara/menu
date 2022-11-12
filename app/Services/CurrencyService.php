@@ -27,10 +27,10 @@ class CurrencyService
     {
         $currency = $this->currencyRepository->getCurrency($currencyID);
 
-        $price = (1 / $currency->exchange_rate) * $amount * (1 - $currency->surcharge);
+        $price = (1 / $currency->exchange_rate) * $amount * (1 + $currency->surcharge);
 
         if ($currency->discount) {
-            $price = $price * $currency->discount;
+            $price = $price * (1 - $currency->discount);
         }
 
         return number_format($price, 2);
