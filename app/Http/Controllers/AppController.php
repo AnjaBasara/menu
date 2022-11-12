@@ -29,4 +29,15 @@ class AppController extends Controller
     {
         return $this->currencyService->calculate($request->currencyID, $request->amount);
     }
+
+    public function purchase(Request $request)
+    {
+        if ($this->currencyService->purchase($request->currencyID, $request->amount)) {
+            // TODO: show success message
+            return back();
+        } else {
+            // TODO: show error message
+            return back()->withErrors(['error' => 'An error occurred while purchasing currency!']);
+        }
+    }
 }

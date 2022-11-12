@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AppController::class, 'index']);
 Route::post('/calculate', [AppController::class, 'calculate']);
+Route::post('/purchase', [AppController::class, 'purchase'])->name('purchase');

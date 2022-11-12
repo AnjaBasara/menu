@@ -6,13 +6,13 @@
             purchase.
         </div>
 
-        <form method="POST" autocomplete="off" id="form">
+        <form id="form" method="POST" action="{{ route('purchase') }}">
             @csrf
 
             <div class="form-group row align-items-center">
-                <label for="currency" class="col-md-6 col-form-label text-md-right">Currency to purchase:</label>
+                <label for="currencyID" class="col-md-6 col-form-label text-md-right">Currency to purchase:</label>
                 <div class="col-md-6">
-                    <select id="currency" name="currency" class="custom-select" required>
+                    <select id="currencyID" name="currencyID" class="custom-select" required>
                         <option selected disabled hidden value="">Select currency</option>
                         @foreach($currencies as $currency)
                             <option value="{{ $currency->id }}">{{ $currency->code }}</option>
@@ -42,17 +42,15 @@
 
 @push('scripts')
     <script>
-        document.getElementById('currency').addEventListener('click', calculatePrice);
+        document.getElementById('currencyID').addEventListener('click', calculatePrice);
         document.getElementById('amount').addEventListener('input', calculatePrice);
 
         function calculatePrice() {
-            const currencyID = document.getElementById('currency').value;
+            const currencyID = document.getElementById('currencyID').value;
             const amount = document.getElementById('amount').value;
 
             if (currencyID && amount) {
                 getPrice(currencyID, amount);
-                show('priceDiv');
-                show('purchaseDiv');
             } else {
                 hide('priceDiv');
                 hide('purchaseDiv');
@@ -74,6 +72,8 @@
                 success:
                     function (price) {
                         document.getElementById('price').innerText = price + ' USD';
+                        show('priceDiv');
+                        show('purchaseDiv');
                     },
                 error:
                     function (error) {

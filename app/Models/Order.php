@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
+/**
+ * @property int $id;
+ * @property float $exchange_rate;
+ * @property float $surcharge_percentage;
+ * @property float $surcharge_amount;
+ * @property float $amount_purchased;
+ * @property float $amount_paid;
+ * @property float $discount_percentage;
+ * @property float $discount_amount;
+ * @property int $currency_id;
+ */
+class Order extends Model
+{
+    use HasFactory;
+
+    public function currency(): HasOne
+    {
+        return $this->hasOne(Currency::class);
+    }
+}

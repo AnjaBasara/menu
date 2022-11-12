@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('code');
             $table->string('description');
-            $table->double('exchange_rate');
-            $table->double('surcharge');
-            $table->double('discount')->nullable();
+            $table->float('exchange_rate');
+            $table->float('surcharge');
+            $table->float('discount')->nullable();
         });
     }
 
