@@ -2,6 +2,10 @@ html, body {
     height: 100%;
 }
 
+#app {
+    padding-top: 150px;
+}
+
 #priceDiv, #purchaseDiv {
     visibility: hidden;
 }

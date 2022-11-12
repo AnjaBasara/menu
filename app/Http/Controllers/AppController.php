@@ -33,11 +33,10 @@ class AppController extends Controller
     public function purchase(Request $request)
     {
         if ($this->currencyService->purchase($request->currencyID, $request->amount)) {
-            // TODO: show success message
+            session()->flash('purchase_success', 'Successfully purchased currency');
             return back();
         } else {
-            // TODO: show error message
-            return back()->withErrors(['error' => 'An error occurred while purchasing currency!']);
+            return back()->withErrors(['purchase_error' => 'An error occurred while purchasing currency!']);
         }
     }
 }

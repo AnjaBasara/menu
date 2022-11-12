@@ -1,6 +1,6 @@
 @extends('index')
 @section('content')
-    <div class="h-100 d-flex flex-column justify-content-center align-items-center">
+    <div id="app" class="d-flex flex-column justify-content-center align-items-center">
 
         <div class="mb-5">To purchase a currency, please choose the desired currency and the amount you would like to
             purchase.
@@ -28,6 +28,14 @@
                 </div>
             </div>
 
+            @if(session('purchase_success'))
+                <div class="alert alert-success" id="flash">{{ session('purchase_success') }}</div>
+            @endif
+
+            @error('purchase_error')
+                <div class="alert alert-danger" id="flash">{{ $message }}</div>
+            @enderror
+
             <div class="d-flex flex-column align-items-center p-3" id="priceDiv">
                 <div>Purchase price:</div>
                 <h4 id="price"></h4>
@@ -42,6 +50,8 @@
 
 @push('scripts')
     <script>
+        $('#flash').delay(2000).fadeOut(400);
+
         document.getElementById('currencyID').addEventListener('click', calculatePrice);
         document.getElementById('amount').addEventListener('input', calculatePrice);
 
