@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\EurOrderCreated;
 use App\Events\GbpOrderCreated;
+use App\Listeners\ApplyDiscount;
 use App\Listeners\SendEmailConfirmation;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -16,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         GbpOrderCreated::class => [
             SendEmailConfirmation::class,
+        ],
+        EurOrderCreated::class => [
+            ApplyDiscount::class,
         ],
     ];
 

@@ -16,13 +16,16 @@ class OrderRepository
         $order->surcharge_amount = $currency->surcharge * $amount;
         $order->amount_purchased = $amount;
         $order->amount_paid = $price;
-        $order->discount_percentage = $currency->discount;
-        $order->discount_amount = $currency->discount * $amount;
 
         if ($order->save()) {
             return $order;
         } else {
             return null;
         }
+    }
+
+    public function update(Order $order): bool
+    {
+        return $order->save();
     }
 }

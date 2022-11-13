@@ -29,12 +29,18 @@
             </div>
 
             @if(session('purchase_success'))
-                <div class="alert alert-success" id="flash">{{ session('purchase_success') }}</div>
+                <div class="alert alert-success">{{ session('purchase_success') }}</div>
             @endif
 
-            @error('purchase_error')
-                <div class="alert alert-danger" id="flash">{{ $message }}</div>
-            @enderror
+            @if(session('discount_applied'))
+                <div class="alert alert-success">{{ session('discount_applied') }}</div>
+            @endif
+
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger">{{ $error }}</div>
+                @endforeach
+            @endif
 
             <div class="d-flex flex-column align-items-center p-3" id="priceDiv">
                 <div>Purchase price:</div>
@@ -50,7 +56,7 @@
 
 @push('scripts')
     <script>
-        $('#flash').delay(2000).fadeOut(400);
+        $('.alert').delay(2000).fadeOut(400);
 
         document.getElementById('currencyID').addEventListener('click', calculatePrice);
         document.getElementById('amount').addEventListener('input', calculatePrice);

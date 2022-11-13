@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\EurOrderCreated;
 use App\Events\GbpOrderCreated;
 use App\Models\Currency;
 use App\Repositories\CurrencyRepository;
@@ -29,13 +30,7 @@ class CurrencyService
     {
         $currency = $this->currencyRepository->getCurrency($currencyID);
 
-        $price = (1 / $currency->exchange_rate) * $amount * (1 + $currency->surcharge);
-
-        if ($currency->discount) {
-            $price = $price * (1 - $currency->discount);
-        }
-
-        return round($price, 2);
+        return round((1 / $currency->exchange_rate) * $amount * (1 + $currency->surcharge), 2);
     }
 
     public function purchase(string $currencyID, string $amount): bool
@@ -49,8 +44,13 @@ class CurrencyService
             return false;
         }
 
-        if ($currency->code === Currency::GBP) {
-            GbpOrderCreated::dispatch($order);
+        switch ($currency->code) {
+            case Currency::GBP:
+                GbpOrderCreated::dispatch($order);
+                break;
+            case Currency::EUR:
+                EurOrderCreated::dispatch($order);
+                break;
         }
 
         return true;
