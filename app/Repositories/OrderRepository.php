@@ -10,7 +10,7 @@ class OrderRepository
     public function create(Currency $currency, float $amount, float $price): ?Order
     {
         $order = new Order();
-        $order->currency_id = $currency->id;
+        $order->currency_code = $currency->code;
         $order->exchange_rate = $currency->exchange_rate;
         $order->surcharge_percentage = $currency->surcharge;
         $order->surcharge_amount = $currency->surcharge * $amount;

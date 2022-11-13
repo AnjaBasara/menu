@@ -26,17 +26,17 @@ class CurrencyService
         return $this->currencyRepository->getCurrencies();
     }
 
-    public function calculate(string $currencyID, string $amount): float
+    public function calculate(string $currencyCode, string $amount): float
     {
-        $currency = $this->currencyRepository->getCurrency($currencyID);
+        $currency = $this->currencyRepository->getCurrency($currencyCode);
 
         return round((1 / $currency->exchange_rate) * $amount * (1 + $currency->surcharge), 2);
     }
 
-    public function purchase(string $currencyID, string $amount): bool
+    public function purchase(string $currencyCode, string $amount): bool
     {
-        $currency = $this->currencyRepository->getCurrency($currencyID);
-        $price = $this->calculate($currencyID, $amount);
+        $currency = $this->currencyRepository->getCurrency($currencyCode);
+        $price = $this->calculate($currencyCode, $amount);
 
         $order = $this->orderRepository->create($currency, $amount, $price);
 

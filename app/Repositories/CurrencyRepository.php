@@ -16,10 +16,10 @@ class CurrencyRepository
         });
     }
 
-    public function getCurrency(string $id): Currency
+    public function getCurrency(string $code): Currency
     {
-        return Cache::remember($id, 86400, function () use ($id) {
-            return Currency::find($id);
+        return Cache::remember($code, 86400, function () use ($code) {
+            return Currency::find($code);
         });
     }
 }

@@ -23,7 +23,13 @@ return new class extends Migration
             $table->float('amount_paid');
             $table->float('discount_percentage')->nullable();
             $table->float('discount_amount')->nullable();
-            $table->integer('currency_id');
+
+            $table->string('currency_code');
+            $table->foreign('currency_code')
+                ->references('code')
+                ->on('currencies')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

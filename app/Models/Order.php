@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float $amount_paid;
  * @property float $discount_percentage;
  * @property float $discount_amount;
- * @property int $currency_id;
+ * @property string $currency_code;
  */
 class Order extends Model
 {

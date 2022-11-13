@@ -27,12 +27,12 @@ class AppController extends Controller
 
     public function calculate(Request $request): float
     {
-        return $this->currencyService->calculate($request->currencyID, $request->amount);
+        return $this->currencyService->calculate($request->currency, $request->amount);
     }
 
     public function purchase(Request $request)
     {
-        if ($this->currencyService->purchase($request->currencyID, $request->amount)) {
+        if ($this->currencyService->purchase($request->currency, $request->amount)) {
             session()->flash('purchase_success', 'Successfully purchased currency');
             return back();
         } else {
