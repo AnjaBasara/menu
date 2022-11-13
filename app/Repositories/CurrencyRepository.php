@@ -22,4 +22,9 @@ class CurrencyRepository
             return Currency::find($code);
         });
     }
+
+    public function update(Currency $currency): bool
+    {
+        return $currency->save();
+    }
 }
