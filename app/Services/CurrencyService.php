@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Events\GbpOrderCreated;
+use App\Models\Currency;
 use App\Repositories\CurrencyRepository;
 use App\Repositories\OrderRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -33,7 +35,7 @@ class CurrencyService
             $price = $price * (1 - $currency->discount);
         }
 
-        return number_format($price, 2);
+        return round($price, 2);
     }
 
     public function purchase(string $currencyID, string $amount): bool
@@ -41,6 +43,16 @@ class CurrencyService
         $currency = $this->currencyRepository->getCurrency($currencyID);
         $price = $this->calculate($currencyID, $amount);
 
-        return $this->orderRepository->create($currency, $amount, $price);
+        $order = $this->orderRepository->create($currency, $amount, $price);
+
+        if (!$order) {
+            return false;
+        }
+
+        if ($currency->code === Currency::GBP) {
+            GbpOrderCreated::dispatch($order);
+        }
+
+        return true;
     }
 }

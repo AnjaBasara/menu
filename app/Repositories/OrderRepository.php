@@ -7,7 +7,7 @@ use App\Models\Order;
 
 class OrderRepository
 {
-    public function create(Currency $currency, float $amount, float $price): bool
+    public function create(Currency $currency, float $amount, float $price): ?Order
     {
         $order = new Order();
         $order->currency_id = $currency->id;
@@ -18,6 +18,11 @@ class OrderRepository
         $order->amount_paid = $price;
         $order->discount_percentage = $currency->discount;
         $order->discount_amount = $currency->discount * $amount;
-        return $order->save();
+
+        if ($order->save()) {
+            return $order;
+        } else {
+            return null;
+        }
     }
 }

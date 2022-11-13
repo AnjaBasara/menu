@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id;
@@ -21,8 +21,8 @@ class Order extends Model
 {
     use HasFactory;
 
-    public function currency(): HasOne
+    public function currency(): BelongsTo
     {
-        return $this->hasOne(Currency::class);
+        return $this->belongsTo(Currency::class);
     }
 }

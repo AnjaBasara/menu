@@ -20,6 +20,10 @@ class Currency extends Model
 
     public $timestamps = false;
 
+    const GBP = 'GBP';
+    const JPY = 'JPY';
+    const EUR = 'EUR';
+
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
