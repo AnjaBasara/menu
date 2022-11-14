@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\CurrencyService;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
@@ -45,13 +46,16 @@ class AppController extends Controller
         }
     }
 
-    public function purchase(Request $request)
+    public function purchase(Request $request): RedirectResponse
     {
-        if ($this->currencyService->purchase($request->currency, $request->amount)) {
-            session()->flash('purchase_success', 'Successfully purchased currency');
-            return back();
-        } else {
-            return back()->withErrors(['purchase_error' => 'An error occurred while purchasing currency!']);
+        try {
+            if ($this->currencyService->purchase($request->currency, $request->amount)) {
+                session()->flash('purchase_success', 'Successfully purchased currency');
+                return back();
+            }
+        } catch (TypeError|Exception) {
         }
+
+        return back()->withErrors(['purchase_error' => 'An error occurred while purchasing currency!']);
     }
 }
