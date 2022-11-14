@@ -22,11 +22,17 @@ class AppController extends Controller
 
     public function index(): View
     {
-        return view('pages.exchange', [
-            'currencies' => Cache::remember('currencies', config('ttl.currency'), function () {
-                return $this->currencyService->getCurrencies();
-            }),
-        ]);
+        try {
+            return view('pages.exchange', [
+                'currencies' => Cache::remember('currencies', config('ttl.currency'), function () {
+                    return $this->currencyService->getCurrencies();
+                }),
+            ]);
+        } catch (Exception) {
+            return view('pages.exchange', [
+                'currencies' => [],
+            ])->withErrors(['error' => 'An error occurred while fetching currencies!']);
+        }
     }
 
     public function calculate(Request $request): JsonResponse
