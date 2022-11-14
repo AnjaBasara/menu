@@ -13,6 +13,10 @@ services:
             - ./storage/db:/var/lib/mysql
         ports:
             - '3307:3306'
+        healthcheck:
+            test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+            timeout: 5s
+            retries: 20
     app:
         container_name: currency-app
         build:
@@ -20,4 +24,5 @@ services:
         ports:
             - '8000:8000'
         depends_on:
-            - db
+            db:
+                condition: service_healthy
