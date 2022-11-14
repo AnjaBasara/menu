@@ -19,7 +19,7 @@ class AppController extends Controller
     public function index(): View
     {
         return view('pages.exchange', [
-            'currencies' => Cache::remember('currencies', 86400, function () {
+            'currencies' => Cache::remember('currencies', config('ttl.currency'), function () {
                 return $this->currencyService->getCurrencies();
             }),
         ]);
