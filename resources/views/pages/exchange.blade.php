@@ -6,7 +6,7 @@
             purchase.
         </div>
 
-        <form id="form" method="POST" action="{{ route('purchase') }}">
+        <form id="form" method="POST" action="{{ route('purchase') }}" autocomplete="off">
             @csrf
 
             <div class="form-group row align-items-center">
