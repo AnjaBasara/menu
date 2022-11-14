@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Repositories\CurrencyRepository;
 use App\Services\CurrencyLayerApiService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use PDOException;
 
@@ -52,12 +53,15 @@ class UpdateExchangeRates extends Command
                 DB::beginTransaction();
 
                 foreach ($currencies->json('quotes') as $key => $quote) {
-                    $currency = $this->currencyRepository->getCurrency(substr($key, 3));
+                    $code = substr($key, 3);
+                    $currency = $this->currencyRepository->getCurrency($code);
                     $currency->exchange_rate = $quote;
                     $this->currencyRepository->update($currency);
+                    Cache::forget($code);
                 }
 
                 DB::commit();
+                Cache::forget('currencies');
             } catch (PDOException $e) {
                 DB::rollBack();
                 $this->error(self::PDO_ERROR);
