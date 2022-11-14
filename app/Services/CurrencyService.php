@@ -8,6 +8,7 @@ use App\Models\Currency;
 use App\Repositories\CurrencyRepository;
 use App\Repositories\OrderRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class CurrencyService
 {
@@ -35,6 +36,11 @@ class CurrencyService
 
     public function purchase(string $currencyCode, string $amount): bool
     {
+        if (!Cache::get($currencyCode)) {
+            // exchange rates have been changed
+            return false;
+        }
+
         $currency = $this->currencyRepository->getCurrency($currencyCode);
         $price = $this->calculate($currencyCode, $amount);
 
