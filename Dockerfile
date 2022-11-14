@@ -13,4 +13,4 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www
 COPY . .
 
-CMD bash -c "composer install --no-interaction && cp .env.example .env && php artisan key:generate && php artisan migrate:fresh && php artisan db:seed && php artisan serve --host=0.0.0.0"
+CMD bash -c "composer install --no-interaction && php artisan key:generate && php artisan migrate:fresh && php artisan db:seed && php artisan serve --host=0.0.0.0"
