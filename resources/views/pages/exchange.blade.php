@@ -86,14 +86,15 @@
                 processData: false,
                 contentType: false,
                 success:
-                    function (price) {
-                        document.getElementById('price').innerText = price + ' USD';
+                    function (response) {
+                        document.getElementById('price').innerText = response['price'] + ' USD';
                         show('priceDiv');
                         show('purchaseDiv');
                     },
                 error:
                     function (error) {
-                        console.log(error);
+                        document.getElementById('price').innerText = error['responseJSON']['error'];
+                        show('priceDiv');
                     },
             });
         }

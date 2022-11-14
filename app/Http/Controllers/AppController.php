@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Services\CurrencyService;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
+use TypeError;
 
 class AppController extends Controller
 {
@@ -25,9 +28,21 @@ class AppController extends Controller
         ]);
     }
 
-    public function calculate(Request $request): float
+    public function calculate(Request $request): JsonResponse
     {
-        return $this->currencyService->calculate($request->currency, $request->amount);
+        try {
+            return response()->json([
+                'price' => $this->currencyService->calculate($request->currency, $request->amount),
+            ], 200);
+        } catch (TypeError) {
+            return response()->json([
+                'error' => 'Amount must be a number!',
+            ], 400);
+        } catch (Exception) {
+            return response()->json([
+                'error' => 'An error occurred while calculating price!',
+            ], 500);
+        }
     }
 
     public function purchase(Request $request)
