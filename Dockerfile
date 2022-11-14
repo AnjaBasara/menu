@@ -13,4 +13,5 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www
 COPY . .
 
-CMD bash -c "composer install --no-interaction && php artisan key:generate && php artisan migrate:fresh && php artisan db:seed && php artisan serve --host=0.0.0.0"
+COPY ./docker-entrypoint.sh /usr/bin
+ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
